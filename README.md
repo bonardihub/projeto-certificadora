@@ -58,6 +58,13 @@ Inicie o servidor
   npm run dev
 ```
 
+Copie o link do campo "Local" e abra no navegador
+
+Exemplo:
+
+```bash
+  Local:   http://localhost:5173/
+```
 
 ## Funcionalidades
 
