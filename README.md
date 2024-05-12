@@ -17,7 +17,7 @@ membros do projeto.
 
 
 
-## Ferramentas utilizadas
+## Tecnologias utilizadas
 - Front-end em ReactJS;
 
 - Tipagem com Typescript;
