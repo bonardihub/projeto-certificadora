@@ -8,12 +8,6 @@ engenharia e matemática. O objetivo é criar uma plataforma onde as
 propostas possam ser submetidas, e posteriormente avaliadas e implementadas pelos
 membros do projeto.
 
-# Objetivo do Sistema;
-Breve apresentação das Funcionalidades Desenvolvidas;
-Roteiro a ser seguido para testar o sistema (Por exemplo, se será necessário algum cadastro antes de outro);
-Contas de Acesso padrão para iniciar o uso do sistema. 
-
-
 
 ## Autores
 
