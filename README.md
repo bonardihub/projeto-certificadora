@@ -43,7 +43,7 @@ Para compilar e executar o sistema:
 - Entre no diretório do projeto, onde o código fonte foi baixado
 
 ```bash
-  cd projeto-certificadora-main
+  cd projeto-certificadora
 ```
 
 Instale as dependências
