@@ -27,8 +27,10 @@ membros do projeto.
 - Interface responsiva com TailwindCSS;
 
 - Uso de APIs da Web como Web Speech.
+  
+## Ferramentas utilizadas para codificar
 
-
+Visual Studio Code versão 1.89.1 disponível em: https://code.visualstudio.com/download
 
 ## Rodando localmente
 
