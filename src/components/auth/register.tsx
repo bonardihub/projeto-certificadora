@@ -38,6 +38,7 @@ export default function Register() {
           email: email,
           role: role,
           password: password,
+          notesRated: null,
         });
         setEmail("");
         setPassword("");
