@@ -1,88 +1,16 @@
-import { ChangeEvent, useState } from "react";
-import logo from "./assets/logo.png";
-import { NewNoteCard } from "./components/new-note-card";
-import { NoteCard } from "./components/note-card";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./components/auth/login";
+import Register from "./components/auth/register";
+import Page from "./components/page";
 
-interface Note {
-  id: string;
-  date: Date;
-  content: string;
-}
-
-export function App() {
-  const [search, setSearch] = useState("");
-
-  const [notes, setNotes] = useState<Note[]>(() => {
-    const notesOnStorage = localStorage.getItem("notes");
-
-    if (notesOnStorage) {
-      return JSON.parse(notesOnStorage);
-    }
-
-    return [];
-  });
-
-  function onNoteCreated(content: string) {
-    const newNote = {
-      id: crypto.randomUUID(),
-      date: new Date(),
-      content,
-    };
-
-    const notesArray = [newNote, ...notes];
-
-    setNotes(notesArray);
-
-    localStorage.setItem("notes", JSON.stringify(notesArray));
-  }
-
-  function onNoteDeleted(id: string) {
-    const notesArray = notes.filter((note) => {
-      return note.id !== id;
-    });
-
-    setNotes(notesArray);
-
-    localStorage.setItem("notes", JSON.stringify(notesArray));
-  }
-
-  function handleSearch(event: ChangeEvent<HTMLInputElement>) {
-    const query = event.target.value;
-
-    setSearch(query);
-  }
-
-  const filteredNotes =
-    search != ""
-      ? notes.filter((note) =>
-          note.content.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-        )
-      : notes;
-
+export default function App() {
   return (
-    <div className="mx-auto my-6 max-w-6xl space-y-6 px-5 md:px-0">
-      <img className="h-[120px]" src={logo} alt="logo" />
-
-      <form className="w-full">
-        <input
-          type="text"
-          placeholder="Busque em suas notas"
-          className="w-full bg-transparent text-3xl font-semibold tracking-tight outline-none placeholder:text-fuchsia-100"
-          onChange={handleSearch}
-        />
-      </form>
-
-      <div className="h-px bg-fuchsia-100" />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[250px]">
-        <NewNoteCard onNoteCreated={onNoteCreated} />
-
-        {filteredNotes.map((note) => {
-          return (
-            <NoteCard key={note.id} note={note} onNoteDeleted={onNoteDeleted} />
-          );
-        })}
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/page" element={<Page />} />
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
