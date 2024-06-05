@@ -2,18 +2,25 @@ import { ChangeEvent, useState, useEffect } from "react";
 import logo from "../assets/logo.png";
 import { NewNoteCard } from "../components/new-note-card";
 import { NoteCard } from "../components/note-card";
-import { db } from "../firebase";
-import { addDoc, collection, deleteDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
+import { addDoc, collection, deleteDoc, setDoc, getDoc, increment, arrayUnion } from "firebase/firestore";
 import { getDocs, doc } from "firebase/firestore";
 import { orderBy, query } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
 
 interface Note {
   id: string;
   date: Date;
   content: string;
+  ratings: {
+    value: number;
+    count: number;  
+  };
 }
 
 export default function Page() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
   const [notes, setNotes] = useState<Note[]>([]);
@@ -32,6 +39,7 @@ export default function Page() {
           id: doc.id,
           date: new Date(doc.data().date.seconds * 1000), // convert seconds to milliseconds
           content: doc.data().content,
+          ratings: doc.data().ratings,
         } as Note)
     );
     setNotes(noteList);
@@ -41,6 +49,7 @@ export default function Page() {
     const newNote = {
       date: new Date(),
       content,
+      ratings: {value: null, count: null},
     };
 
     await addDoc(collection(db, "notes"), newNote);
@@ -54,11 +63,48 @@ export default function Page() {
     fetchNotes();
   }
 
+  
+  async function onNoteRated(id: string, rate: number) {
+    const docSnap = await getDoc(doc(db, "notes", id));
+    const user = localStorage.getItem("user")
+
+    if (docSnap.exists() && user) {
+      const docData = docSnap.data();
+
+      if (docData) {
+        const rating = docData['ratings'];
+        const novoRating = (rating['value'] * rating['count'] + rate) / (rating['count'] + 1);
+      
+        await setDoc(doc(db, "users", user), { notesRated: arrayUnion(id) }, { merge: true })
+        await setDoc(doc(db, "notes", id), { ratings: { value: novoRating, count: increment(1) }}, { merge: true });
+        
+        window.location.reload()
+
+      } else {
+          console.error("Document data is undefined.");
+      }
+    } else {
+      console.error("Erro ao avaliar essa nota.");
+    }
+}
+
+
   function handleSearch(event: ChangeEvent<HTMLInputElement>) {
     const query = event.target.value;
 
     setSearch(query);
   }
+
+  
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      localStorage.removeItem("user");
+      navigate("/");
+    } catch (error) {
+      console.error("Error logging out: ", error);
+    }
+  };
 
   const filteredNotes =
     search != ""
@@ -69,28 +115,43 @@ export default function Page() {
 
   return (
     <div className="mx-auto my-6 max-w-6xl space-y-6 px-5 md:px-0">
-      <img className="h-[120px]" src={logo} alt="logo" />
+      <div className="flex justify-between items-center">
+        <img className="h-[120px]" src={logo} alt="logo" />
 
-      <form className="w-full">
-        <input
-          type="text"
-          placeholder="Busque em suas notas"
-          className="w-full bg-transparent text-3xl font-semibold tracking-tight outline-none placeholder:text-fuchsia-100"
-          onChange={handleSearch}
-        />
-      </form>
-
-      <div className="h-px bg-fuchsia-100" />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[250px]">
-        <NewNoteCard onNoteCreated={onNoteCreated} />
-
-        {filteredNotes.map((note) => {
-          return (
-            <NoteCard key={note.id} note={note} onNoteDeleted={onNoteDeleted} />
-          );
-        })}
+                
+        {localStorage.getItem('user') !== null ? 
+          (
+            <button onClick={handleLogout} className="h-10 px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
+              Logout
+            </button>
+          ) 
+          : (null)
+        }
       </div>
+  
+        <form className="w-full">
+          <input
+            type="text"
+            placeholder="Busque em suas notas"
+            className="w-full bg-transparent text-3xl font-semibold tracking-tight outline-none placeholder:text-fuchsia-100"
+            onChange={handleSearch}
+          />
+        </form>
+  
+        <div className="h-px bg-fuchsia-100" />
+      
+        {localStorage.getItem('user') !== null ? 
+        (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[250px]">
+          <NewNoteCard onNoteCreated={onNoteCreated} />
+  
+          {filteredNotes.map((note) => {
+            return (
+              <NoteCard key={note.id} note={note} onNoteDeleted={onNoteDeleted} onNoteRated={onNoteRated}/>
+            );
+          })}
+        </div>
+        ) : (<div> Faça <a className="text-blue-500 font-bold" href="/">login</a> para criar ou acessar notas </div>)}
     </div>
   );
 }
