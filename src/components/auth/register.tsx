@@ -44,8 +44,8 @@ export default function Register() {
         setPassword("");
         toast.success("Conta criada com sucesso!");
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        toast.error("Erro ao criar conta");
       });
   };
 

@@ -3,6 +3,7 @@ import logo from "../../assets/logo.png";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -15,7 +16,6 @@ export default function Login() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         navigate("/page");
-        localStorage.setItem("user", user.uid)
       } else {
         setUserLoggedIn(false);
       }
@@ -29,12 +29,11 @@ export default function Login() {
   const signIn = (e: React.FormEvent) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential);
+      .then(() => {
         navigate("/page");
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        toast.error("Email ou senha incorretos")
       });
   };
 
