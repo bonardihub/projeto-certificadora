@@ -88,9 +88,10 @@ export function NoteCard({ note, onNoteDeleted, onNoteRated }: NoteCardProps) {
             <>
               { isAdmin ? <Rating SVGclassName="inline" onClick={(rate) => onNoteRated(note.id, rate)} titleSeparator="de" allowFraction readonly={voted}></Rating>
               : null }
-              <span className="pb-5 text-sm text-slate-600">Avaliação: {note.ratings.value !== null ? note.ratings.value.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' de 5' : 'Seja o primeiro a avaliar essa ideia!'}</span>
             </>
           )}
+          
+          <span className="pb-5 text-sm text-slate-600">Avaliação: {note.ratings.value !== null ? note.ratings.value.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' de 5' : 'Seja o primeiro a avaliar essa ideia!'}</span> 
 
             <button
               onClick={() => onNoteDeleted(note.id)}
