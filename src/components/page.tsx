@@ -7,7 +7,8 @@ import { addDoc, collection, deleteDoc, setDoc, getDoc, increment, arrayUnion } 
 import { getDocs, doc } from "firebase/firestore";
 import { orderBy, query } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
+import { toast } from "sonner";
 
 interface Note {
   id: string;
@@ -21,8 +22,8 @@ interface Note {
 
 export default function Page() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
 
+  const [search, setSearch] = useState("");
   const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export default function Page() {
   
   async function onNoteRated(id: string, rate: number) {
     const docSnap = await getDoc(doc(db, "notes", id));
-    const user = localStorage.getItem("user")
+    const user = getAuth().currentUser;
 
     if (docSnap.exists() && user) {
       const docData = docSnap.data();
@@ -75,10 +76,15 @@ export default function Page() {
         const rating = docData['ratings'];
         const novoRating = (rating['value'] * rating['count'] + rate) / (rating['count'] + 1);
       
-        await setDoc(doc(db, "users", user), { notesRated: arrayUnion(id) }, { merge: true })
-        await setDoc(doc(db, "notes", id), { ratings: { value: novoRating, count: increment(1) }}, { merge: true });
-        
-        window.location.reload()
+        try {
+          await setDoc(doc(db, "users", user.uid), { notesRated: arrayUnion(id) }, { merge: true });
+          await setDoc(doc(db, "notes", id), { ratings: { value: novoRating, count: increment(1) }}, { merge: true });  
+          window.location.reload()
+        }
+        catch(error) {
+          toast.error("Apenas administradores podem votar em ideias!")
+        }
+
 
       } else {
           console.error("Document data is undefined.");
@@ -99,7 +105,6 @@ export default function Page() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      localStorage.removeItem("user");
       navigate("/");
     } catch (error) {
       console.error("Error logging out: ", error);
@@ -116,10 +121,11 @@ export default function Page() {
   return (
     <div className="mx-auto my-6 max-w-6xl space-y-6 px-5 md:px-0">
       <div className="flex justify-between items-center">
-        <img className="h-[120px]" src={logo} alt="logo" />
-
+        <a href="https://meninas.sbc.org.br/portfolio-3/meninas-digitais-utfpr-cp/">
+          <img className="h-[120px]" src={logo} alt="logo" />
+        </a>
                 
-        {localStorage.getItem('user') !== null ? 
+        {getAuth().currentUser !== null ? 
           (
             <button onClick={handleLogout} className="h-10 px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
               Logout
@@ -140,7 +146,7 @@ export default function Page() {
   
         <div className="h-px bg-fuchsia-100" />
       
-        {localStorage.getItem('user') !== null ? 
+        {getAuth().currentUser !== null ? 
         (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[250px]">
           <NewNoteCard onNoteCreated={onNoteCreated} />
