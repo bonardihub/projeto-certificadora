@@ -67,11 +67,26 @@ Exemplo:
 ```bash
   Local:   http://localhost:5173/
 ```
+## Entrando como Administrador 
 
-## Funcionalidades
+Entrar usando:
+```bash
+  Usuario: admin@admin.admin
+  Senha:adminadmin
+```
+
+
+## Funcionalidades como administrador
 
 - Criar notas
 - Deletar notas
+- Avaliar a nota criada
+- Responsividade para dispositivos móveis
+- Web Speech
+
+## Funcionalidades do usuário
+
+- Criar notas
 - Responsividade para dispositivos móveis
 - Web Speech
 
