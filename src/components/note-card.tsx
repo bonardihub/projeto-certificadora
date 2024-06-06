@@ -6,10 +6,7 @@ import { X } from "lucide-react";
 import { Rating } from "react-simple-star-rating";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
-<<<<<<< HEAD
 import { getAuth } from "firebase/auth";
-=======
->>>>>>> de14a14809f196c5eaf50279447a909b0cec23d8
 
 interface NoteCardProps {
   note: {
@@ -27,7 +24,6 @@ interface NoteCardProps {
 
 
 export function NoteCard({ note, onNoteDeleted, onNoteRated }: NoteCardProps) {
-<<<<<<< HEAD
   const [voted, setVoted] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -44,24 +40,6 @@ export function NoteCard({ note, onNoteDeleted, onNoteRated }: NoteCardProps) {
           if (docData['role'] === 'admin'){
             setIsAdmin(true);
           }
-=======
-  
-  const [voted, setVoted] = useState(false);
-
-  useEffect(() => {
-    async function hasVoted() {
-      const user = localStorage.getItem("user")
-
-      if(user) {
-        const docSnap = await getDoc(doc(db, "users", user));
-
-        if (docSnap.exists()) {
-          const docData = docSnap.data();
-  
-          if (docData['notesRated'].includes(note.id)) {
-            setVoted(true);
-          }
->>>>>>> de14a14809f196c5eaf50279447a909b0cec23d8
         }
       }
     }
@@ -104,7 +82,6 @@ export function NoteCard({ note, onNoteDeleted, onNoteRated }: NoteCardProps) {
             <p className="text-sm text-slate-600 leading-6">{note.content}</p>
           </div>
           <div className="items-center mt-auto flex flex-col">
-<<<<<<< HEAD
           
           { voted ? (<span className="p-5 text-red-600">Você já avaliou essa ideia</span>) : 
           (
@@ -115,15 +92,6 @@ export function NoteCard({ note, onNoteDeleted, onNoteRated }: NoteCardProps) {
             </>
           )}
 
-=======
-            { voted ? (<span className="p-5 text-red-600">Você já avaliou essa ideia</span>) : 
-          (
-            <>
-              <Rating SVGclassName="inline" onClick={(rate) => onNoteRated(note.id, rate)} titleSeparator="de" allowFraction readonly={voted}></Rating>
-              <span className="pb-5 text-sm text-slate-600">Avaliação: {note.ratings.value !== null ? note.ratings.value.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) : 'Seja o primeiro a avaliar essa ideia!'}</span>
-            </>
-          )}
->>>>>>> de14a14809f196c5eaf50279447a909b0cec23d8
             <button
               onClick={() => onNoteDeleted(note.id)}
               type="button"
