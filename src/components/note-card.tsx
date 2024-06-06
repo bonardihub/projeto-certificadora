@@ -81,8 +81,13 @@ export function NoteCard({ note, onNoteDeleted, onNoteRated }: NoteCardProps) {
             <p className="text-sm text-slate-600 leading-6">{note.content}</p>
           </div>
           <div className="items-center mt-auto flex flex-col">
-            <Rating SVGclassName="inline" onClick={(rate) => onNoteRated(note.id, rate)} allowFraction readonly={voted}></Rating>
-            <span className="pb-5 text-sm text-slate-600">Avaliação: {note.ratings.value !== null ? note.ratings.value.toFixed(1) : 'Seja o primeiro a avaliar essa ideia!'}</span>
+            { voted ? (<span className="p-5 text-red-600">Você já avaliou essa ideia</span>) : 
+          (
+            <>
+              <Rating SVGclassName="inline" onClick={(rate) => onNoteRated(note.id, rate)} titleSeparator="de" allowFraction readonly={voted}></Rating>
+              <span className="pb-5 text-sm text-slate-600">Avaliação: {note.ratings.value !== null ? note.ratings.value.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) : 'Seja o primeiro a avaliar essa ideia!'}</span>
+            </>
+          )}
             <button
               onClick={() => onNoteDeleted(note.id)}
               type="button"
