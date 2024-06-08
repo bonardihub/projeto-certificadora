@@ -32,7 +32,7 @@ membros do projeto.
 
 Visual Studio Code versão 1.89.1 disponível em: https://code.visualstudio.com/download
 
-## Rodando localmente
+## Executando localmente
 
 Para compilar e executar o sistema:
 
