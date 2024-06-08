@@ -72,7 +72,7 @@ Exemplo:
 Entrar usando:
 ```bash
   Usuario: admin@admin.admin
-  Senha:adminadmin
+  Senha: adminadmin
 ```
 
 
@@ -80,13 +80,10 @@ Entrar usando:
 
 - Criar notas
 - Deletar notas
-- Avaliar a nota criada
-- Responsividade para dispositivos móveis
-- Web Speech
+- Avaliar notas
 
 ## Funcionalidades do usuário
 
 - Criar notas
-- Responsividade para dispositivos móveis
-- Web Speech
+
 
