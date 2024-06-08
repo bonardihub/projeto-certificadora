@@ -18,15 +18,15 @@ membros do projeto.
 
 
 ## Tecnologias utilizadas
-- Front-end em ReactJS;
+- ReactJS;
 
-- Tipagem com Typescript;
+- Typescript;
 
-- Tooling com Vite;
+- Vite;
 
-- Interface responsiva com TailwindCSS;
+- TailwindCSS;
 
-- Uso de APIs da Web como Web Speech.
+- Node.js v20.13.1 disponível em https://nodejs.org/en/.
   
 ## Ferramentas utilizadas para codificar
 
