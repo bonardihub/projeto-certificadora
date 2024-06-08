@@ -18,15 +18,15 @@ membros do projeto.
 
 
 ## Tecnologias utilizadas
-- ReactJS disponível em https://react.dev/;
+- ReactJS (disponível em https://react.dev/);
 
-- Typescript disponível em https://www.typescriptlang.org/;
+- Typescript (disponível em https://www.typescriptlang.org/);
 
-- Vite disponível em https://vitejs.dev/;
+- Vite (disponível em https://vitejs.dev/);
 
-- TailwindCSS disponível em https://tailwindcss.com/;
+- TailwindCSS (disponível em https://tailwindcss.com/);
 
-- Node.js v20.13.1 disponível em https://nodejs.org/en/.
+- Node.js v20.13.1 (disponível em https://nodejs.org/en/).
   
 ## Ferramentas utilizadas para codificar
 
