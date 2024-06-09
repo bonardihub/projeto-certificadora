@@ -16,7 +16,6 @@ membros do projeto.
 - [@JoaoClaudioSilva](https://github.com/JoaoClaudioSilva)
 
 
-
 ## Tecnologias utilizadas
 - ReactJS (disponível em https://react.dev/);
 
@@ -30,7 +29,11 @@ membros do projeto.
   
 ## Ferramentas utilizadas para codificar
 
-Visual Studio Code versão 1.89.1 disponível em: https://code.visualstudio.com/download
+Visual Studio Code versão 1.89.1 (disponível em https://code.visualstudio.com/download)
+
+## Banco de Dados
+
+Firebase (disponível em https://firebase.google.com/?hl=pt)
 
 ## Executando localmente
 
@@ -38,7 +41,7 @@ Para compilar e executar o sistema:
 
 - Certifique-se de baixar o código fonte do projeto no repositório do GitHub
 
-- Baixe e instale o Node.js versão 20.13.1 disponível em https://nodejs.org/en/
+- Baixe e instale o Node.js versão 20.13.1 (disponível em https://nodejs.org/en/)
 
 - Abra o terminal do seu sistema operacional
 
@@ -76,7 +79,7 @@ Entrar usando:
 ```
 
 
-## Funcionalidades como administrador
+## Funcionalidades do administrador
 
 - Criar notas
 - Deletar notas
